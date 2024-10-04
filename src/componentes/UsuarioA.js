@@ -24,7 +24,7 @@ const Ingresar = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const apiUrl = formData.id ? `/api/usuarioA/${formData.id}` : '/api/usuarioA'; // Si hay un ID, se usa para actualizar
+    const apiUrl = formData.id ? `https://examen2-usuario.onrender.com/api/usuarioA/${formData.id}` : 'https://examen2-usuario.onrender.com/api/usuarioA'; // Si hay un ID, se usa para actualizar
 
     try {
       const response = await fetch(apiUrl, {

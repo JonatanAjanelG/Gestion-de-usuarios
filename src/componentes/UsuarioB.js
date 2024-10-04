@@ -22,7 +22,7 @@ const BuscarUsuario = () => {
       return;
     }
 
-    const apiUrl = `/api/usuario/${id}`; // URL de la API para obtener el usuario por ID
+    const apiUrl = `https://examen2-usuario.onrender.com/api/usuario/${id}`; // URL de la API para obtener el usuario por ID
 
     try {
       const response = await fetch(apiUrl, {

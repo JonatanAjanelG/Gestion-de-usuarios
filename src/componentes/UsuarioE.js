@@ -21,7 +21,7 @@ const EliminarUsuario = () => {
       return;
     }
 
-    const apiUrl = `/api/usuarioD/${id}`; // URL de la API para eliminar el usuario por ID
+    const apiUrl = `https://examen2-usuario.onrender.com/api/usuarioD/${id}`; // URL de la API para eliminar el usuario por ID
 
     try {
       const response = await fetch(apiUrl, {

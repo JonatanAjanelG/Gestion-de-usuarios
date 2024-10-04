@@ -23,7 +23,7 @@ const Ingresar = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const apiUrl = '/api/usuario';
+    const apiUrl = 'https://examen2-usuario.onrender.com/api/usuario';
 
     try {
       const response = await fetch(apiUrl, {
