@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../estilos/buscar.css'; // Importa el archivo CSS
+import Modal from './Modal'; // Importa el componente Modal
 
 const BuscarUsuario = () => {
   const [id, setId] = useState(''); // Estado para almacenar el ID del usuario
   const [usuario, setUsuario] = useState(null); // Estado para almacenar los datos del usuario
   const [mensaje, setMensaje] = useState(''); // Estado para mostrar mensajes de éxito o error
+  const [showModal, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
   const navigate = useNavigate(); // Hook para manejar la navegación
 
   // Función para manejar el cambio en el input de ID
@@ -19,6 +21,7 @@ const BuscarUsuario = () => {
 
     if (!id) {
       setMensaje('Por favor, ingrese un ID válido.');
+      setShowModal(true); // Mostrar el modal con el mensaje
       return;
     }
 
@@ -33,15 +36,23 @@ const BuscarUsuario = () => {
         const data = await response.json();
         setUsuario(data.usuario); // Accedemos a la propiedad "usuario" dentro de la respuesta
         setMensaje('');
+        setShowModal(false); // Cerrar el modal si se encuentra el usuario
       } else {
         setMensaje('Usuario no encontrado. Verifique el ID.');
         setUsuario(null); // Limpiar los datos si no se encuentra el usuario
+        setShowModal(true); // Mostrar el modal con el mensaje
       }
     } catch (error) {
       console.error('Error en la solicitud:', error);
       setMensaje('Ocurrió un error al buscar el usuario.');
       setUsuario(null); // Limpiar los datos en caso de error
+      setShowModal(true); // Mostrar el modal con el mensaje de error
     }
+  };
+
+  // Función para cerrar el modal
+  const closeModal = () => {
+    setShowModal(false); // Cerrar el modal
   };
 
   // Función para regresar a la página anterior
@@ -71,8 +82,6 @@ const BuscarUsuario = () => {
           <button type="submit" className="buscar">Buscar Usuario</button>
           <button type="button" onClick={handleRegresar} className="regresar">Regresar</button>
         </div>
-
-        {mensaje && <p>{mensaje}</p>}
       </form>
 
       {/* Mostrar la tabla de datos si el usuario es encontrado */}
@@ -107,6 +116,9 @@ const BuscarUsuario = () => {
           </table>
         </div>
       )}
+
+      {/* Modal para mostrar el mensaje */}
+      {showModal && <Modal mensaje={mensaje} closeModal={closeModal} />}
     </div>
   );
 };
