@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../estilos/Ingresar.css'; // Importa el archivo CSS
+import Modal from './Modal'; // Importa el componente modal
 
 const Ingresar = () => {
   const [formData, setFormData] = useState({
@@ -9,11 +10,12 @@ const Ingresar = () => {
     email: '',
     telefono: '',
     direccion: '',
-    fecha: '',
+    fechaingeso: '',
     estado: 'Seleccione un estado',
   });
 
   const [mensaje, setMensaje] = useState('');
+  const [showModal, setShowModal] = useState(false); // Estado para controlar el modal
   const navigate = useNavigate(); // Hook para manejar la navegación
 
   const handleChange = (e) => {
@@ -37,20 +39,23 @@ const Ingresar = () => {
       if (response.ok) {
         const data = await response.json();
         setMensaje(`Datos enviados correctamente. El ID del registro es: ${data.usuario.id}`);
+        setShowModal(true); // Muestra el modal cuando los datos se envían correctamente
         setFormData({
           nombre: '',
           apellido: '',
           email: '',
           telefono: '',
           direccion: '',
-          fecha: '',
+          fechaingeso: '',
           estado: 'Seleccione un estado',
         });
       } else {
         setMensaje('Error al enviar los datos.');
+        setShowModal(true); // Muestra el modal en caso de error
       }
     } catch (error) {
       setMensaje('Ocurrió un error al enviar los datos.');
+      setShowModal(true); // Muestra el modal en caso de error
     }
   };
 
@@ -58,9 +63,12 @@ const Ingresar = () => {
     navigate(ruta);
   };
 
+  const closeModal = () => {
+    setShowModal(false); // Cierra el modal cuando se presiona "Cerrar"
+  };
+
   return (
     <div className="form-container">
-      {/* Agregamos un título */}
       <h2 className="form-title">Registro de Usuario</h2>
       
       <form onSubmit={handleSubmit}>
@@ -155,9 +163,10 @@ const Ingresar = () => {
           <button type="button" className="buscar" onClick={() => handleRedirect('/usuarioB')}>Buscar</button>
           <button type="button" className="eliminar" onClick={() => handleRedirect('/usuarioE')}>Eliminar</button>
         </div>
-
-        {mensaje && <p>{mensaje}</p>}
       </form>
+
+      {/* Modal para mostrar el mensaje */}
+      {showModal && <Modal mensaje={mensaje} closeModal={closeModal} />}
     </div>
   );
 };
