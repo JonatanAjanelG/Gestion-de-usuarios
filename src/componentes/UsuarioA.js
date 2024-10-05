@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../estilos/actualizar.css'; // Importa el archivo CSS
 
-const Ingresar = () => {
+const Actualizar = () => {
   const [formData, setFormData] = useState({
     id: '', // Campo para el ID del usuario a modificar
     nombre: '',
@@ -176,4 +176,4 @@ const Ingresar = () => {
   );
 };
 
-export default Ingresar;
+export default Actualizar;
